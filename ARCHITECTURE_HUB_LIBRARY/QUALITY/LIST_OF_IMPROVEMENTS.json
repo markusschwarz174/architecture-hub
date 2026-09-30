@@ -1,0 +1,6 @@
+{
+  "schema_version": "1.0.0",
+  "updated_at": "2026-09-30T19:30:05+02:00",
+  "admission_rule": "CONFIRMED_REPAIR_AND_SUCCESSFUL_QUALITY_REVALIDATION",
+  "improvements": []
+}

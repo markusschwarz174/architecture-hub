@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>GOLDEN EXAMPLE INTERVIEW — 20 Fragen</title>
+  <style>
+    :root { color-scheme: light; --bg:#f4f2ec; --card:#fff; --ink:#1d1d1b; --muted:#68645d; --line:#d9d4ca; --accent:#274c77; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--bg); color:var(--ink); font:15px/1.45 system-ui, sans-serif; }
+    header { position:sticky; top:0; z-index:2; padding:14px 18px; background:rgba(244,242,236,.96); border-bottom:1px solid var(--line); }
+    h1 { margin:0 0 8px; font-size:21px; }
+    .meta, main { max-width:1050px; margin:auto; }
+    .meta { display:grid; grid-template-columns:1fr 120px auto; gap:8px; align-items:end; }
+    label { color:var(--muted); font-size:12px; }
+    input, textarea, button { font:inherit; }
+    input, textarea { width:100%; border:1px solid var(--line); border-radius:5px; padding:8px; background:#fff; }
+    main { padding:18px; }
+    .notice { border-left:5px solid var(--accent); background:#eaf1f8; padding:11px 13px; margin-bottom:16px; }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:7px; padding:13px; margin:10px 0; }
+    .card h2 { margin:0 0 9px; font-size:16px; }
+    .grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    textarea { min-height:74px; resize:vertical; }
+    .votes { display:flex; gap:6px; flex-wrap:wrap; margin:10px 0; }
+    button { border:1px solid var(--line); border-radius:5px; background:#fff; padding:7px 11px; cursor:pointer; }
+    button.active { color:#fff; background:var(--accent); border-color:var(--accent); }
+    button.export { background:#1d1d1b; color:#fff; }
+    button:disabled { opacity:.45; cursor:not-allowed; }
+    .counter { font-weight:700; white-space:nowrap; }
+    @media (max-width:720px) { .meta,.grid { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+<header>
+  <h1>GOLDEN EXAMPLE INTERVIEW · 20 Fragen</h1>
+  <div class="meta">
+    <label>Gate-ID<input id="gate" placeholder="GATE-ID"></label>
+    <label>Batch<input id="batch" type="number" min="1" value="1"></label>
+    <span class="counter"><span id="done">0</span>/20 entschieden</span>
+    <button id="export" class="export" disabled>JSON exportieren</button>
+  </div>
+</header>
+<main>
+  <div class="notice">Template: AI füllt 20 reale, unterschiedliche Szenarien und einen prüfbaren Vorschlag aus. HUMAN entscheidet jeden Fall. Ein leerer oder ausschliesslich positiver Satz ist kein Golden Set.</div>
+  <div id="questions"></div>
+</main>
+<script>
+const VERDICTS = ["GO", "NO_GO", "BORDERLINE", "HOLD"];
+const storeKey = `quality_golden_interview:${location.pathname}`;
+const state = JSON.parse(localStorage.getItem(storeKey) || "{}") || {};
+state.items ||= Array.from({length:20}, (_,i) => ({question_id:`Q${String(i+1).padStart(2,"0")}`,scenario:"",candidate_output:"",human_verdict:null,human_comment:""}));
+const qRoot = document.getElementById("questions");
+const gate = document.getElementById("gate");
+const batch = document.getElementById("batch");
+gate.value = state.gate_id || "";
+batch.value = state.batch_number || 1;
+function save(){
+  state.gate_id=gate.value.trim(); state.batch_number=Number(batch.value)||1;
+  localStorage.setItem(storeKey,JSON.stringify(state));
+  const done=state.items.filter(x=>x.human_verdict).length;
+  document.getElementById("done").textContent=done;
+  document.getElementById("export").disabled=done!==20 || !state.gate_id;
+}
+function render(){
+  qRoot.innerHTML="";
+  state.items.forEach((item,index)=>{
+    const card=document.createElement("section"); card.className="card";
+    card.innerHTML=`<h2>${item.question_id}</h2><div class="grid"><label>Konkretes Szenario<textarea data-field="scenario"></textarea></label><label>AI-Vorschlag / erwarteter Output<textarea data-field="candidate_output"></textarea></label></div><div class="votes"></div><label>HUMAN-Kommentar<textarea data-field="human_comment"></textarea></label>`;
+    card.querySelectorAll("textarea").forEach(el=>{ el.value=item[el.dataset.field]||""; el.oninput=()=>{item[el.dataset.field]=el.value;save();}; });
+    const votes=card.querySelector(".votes");
+    VERDICTS.forEach(v=>{const b=document.createElement("button");b.textContent=v;b.classList.toggle("active",item.human_verdict===v);b.onclick=()=>{item.human_verdict=v;render();save();};votes.appendChild(b);});
+    qRoot.appendChild(card);
+  });
+}
+gate.oninput=save; batch.oninput=save;
+document.getElementById("export").onclick=()=>{
+  const now=new Date().toISOString();
+  const payload={schema_version:"1.0.0",batch_id:`${state.gate_id}-B${String(state.batch_number).padStart(2,"0")}`,gate_id:state.gate_id,batch_number:state.batch_number,completed_at:now,items:state.items};
+  const blob=new Blob([JSON.stringify(payload,null,2)+"\n"],{type:"application/json"});
+  const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download=`GOLDEN_INTERVIEW_${state.gate_id}_B${String(state.batch_number).padStart(2,"0")}.json`; a.click(); URL.revokeObjectURL(a.href);
+};
+render(); save();
+</script>
+</body>
+</html>

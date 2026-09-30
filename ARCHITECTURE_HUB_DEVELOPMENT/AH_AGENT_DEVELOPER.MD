@@ -4,7 +4,7 @@ title: DEVELOPER des Architecture Hub
 status: ACTIVE
 version: 1.0.0
 created_at: 2026-09-29T23:04:49+02:00
-updated_at: 2026-09-29T23:30:33+02:00
+updated_at: 2026-09-30T23:36:53+02:00
 activated_at: 2026-09-29T23:30:33+02:00
 authority: HUMAN_DIRECTIVE
 role: DEVELOPER
@@ -156,7 +156,7 @@ Entwicklungsprozesses um seiner selbst willen.
 
 ## Aktuelle AI-Engineering-Methoden
 
-Diese Methodenbasis ist auf den 29. September 2026 datiert. Sie ist kein
+Diese Methodenbasis ist auf den 30. September 2026 datiert. Sie ist kein
 Buzzword-Katalog. Jede Methode wird nur eingesetzt, wenn Umfang oder Trigger
 sie rechtfertigen.
 
@@ -286,6 +286,89 @@ Tools sind schmale, verständliche Verträge:
 MCP oder ein anderes Protokoll wird nur eingesetzt, wenn echte
 Interoperabilität gebraucht wird.
 
+#### Technologieprüfung für GPT, Claude und lokale LLMs
+
+Der DEVELOPER bewertet AI-Technologien nicht nach Bekanntheit, sondern nach
+ihrem realen Einsatz im vorhandenen System. Dabei gelten vier Reifestufen:
+
+- `EINSATZBEREIT`: heute mit dokumentierten Schnittstellen praktisch nutzbar;
+- `BEDINGT`: heute nutzbar, aber nur bei einem konkreten Architekturtrigger;
+- `PILOT`: praktisch erprobbar, jedoch noch nicht als lokaler Standard;
+- `BEOBACHTEN`: Entwurf, unreife Interoperabilität oder für den aktuellen
+  Massstab unverhältnismässig.
+
+Ein Modell allein implementiert diese Technologien nicht. GPT, Claude oder
+Qwen benötigen dafür je nach Fall einen Host, ein SDK, einen Agent-Harness,
+einen MCP-Client, eine Sandbox oder einen externen Dienst.
+
+| Technologie | GPT / OpenAI | Claude / Anthropic | lokales LLM, insbesondere Qwen | Lokaler Entscheid |
+|---|---|---|---|---|
+| `MODEL CONTEXT PROTOCOL` (`MCP`) | direkt über aktuelle API-, Agent- und Plugin-Oberflächen nutzbar | direkt über API, SDK und MCP Connector nutzbar | über Qwen Code oder Qwen-Agent nutzbar; nicht durch die Modellgewichte allein | `EINSATZBEREIT`; vor proprietärer Integration vorhandenen MCP-Server prüfen |
+| `AGENT PLUGIN` | als Paket aus Skills und optional MCP, UI, Hooks und Assets verfügbar | Plugins oder Agent-Konfigurationen sind hostgebunden; MCP und Skills bilden den portableren Kern | Erweiterungen sind hostgebunden; MCP und Skills bleiben die bevorzugte Brücke | `EINSATZBEREIT`, aber `HOST-SPEZIFISCH`; kleinste Paketform wählen |
+| `CONNECTOR` | Verbindung zu Dienst, Konto oder Datenquelle über API, Auth oder MCP | entsprechend über Tool, API oder MCP Connector | über lokalen oder entfernten MCP-Server beziehungsweise eigene API | `EINSATZBEREIT`; nicht mit Plugin oder Extension gleichsetzen |
+| `EXTENSION` | Erweiterung eines bestimmten Hosts oder Produkts | Erweiterung eines bestimmten Hosts oder Produkts | beispielsweise Erweiterung von Qwen Code oder einer lokalen Oberfläche | `BEDINGT`; keine plattformneutrale Bedeutung vortäuschen |
+| `AGENT-TO-AGENT PROTOCOL` (`A2A`) | über einen A2A-fähigen Agent-Harness | über einen A2A-fähigen Agent-Harness | ebenfalls möglich, sofern der lokale Agent einen A2A-Endpunkt besitzt | `BEDINGT`; für unabhängige Agentensysteme, nicht für lokale HELFER im selben Prozess |
+| `SANDBOX`, `EXECUTOR`, `EXECUTION ENVIRONMENT` | dokumentierte Sandbox- und Agent-Runtimes vorhanden | Code Execution oder eigener isolierter Executor nutzbar | externer Container, VM oder eingeschränkter Prozess erforderlich | `EINSATZBEREIT`; bei fremdem oder generiertem Code mit Wirkung grundsätzlich prüfen |
+| `DURABLE EXECUTION`, `CHECKPOINT` | über Agent-Harness oder Workflow-Engine | über Agent-Harness oder Workflow-Engine | über dieselbe externe Workflow-Schicht möglich | `BEDINGT`; nur bei langen Läufen, Wiederaufnahme, Retries oder HUMAN-Wartezuständen |
+| `SESSION`, `STATE STORE`, `MEMORY STORE` | durch API, SDK oder eigenen Store | durch API, SDK oder eigenen Store | durch HERMES AGENTS oder eigenen Store | `EINSATZBEREIT`; Gespräch, Workflowzustand, Checkpoint und Langzeitgedächtnis getrennt halten |
+| `TOOL DISCOVERY`, `TOOL SEARCH` | native oder hostseitige verzögerte Tool-Suche verfügbar | native Tool Search und verzögertes Laden verfügbar | Qwen Code unterstützt MCP-Discovery; Qualität hängt vom lokalen Modell und Harness ab | `EINSATZBEREIT`; erst bei grösserem oder dynamischem Toolbestand einsetzen |
+| `PROGRAMMATIC TOOL CALLING` | innerhalb kontrollierter Codeausführung dokumentiert | innerhalb kontrollierter Codeausführung dokumentiert | über Qwen-Agent oder einen eigenen Orchestrator möglich, jedoch nicht identisch implementiert | `BEDINGT`; für vorhersehbares Filtern, Aggregieren und Mehrschrittlogik |
+| `AGENT FRAMEWORK`, `AGENT SDK` | Agents SDK und weitere Agent-Runtimes verfügbar | Agent SDK und Managed Agents verfügbar | Qwen-Agent und Qwen Code verfügbar | `EINSATZBEREIT`; erst verwenden, wenn Funktion oder einfaches Script nicht genügen |
+| `OBSERVABILITY`, `TRACE`, `SPAN`, `OTEL` | SDK-Traces und Export sind möglich | Tracing über Harness oder OpenTelemetry möglich | über Harness oder OpenTelemetry möglich | `EINSATZBEREIT`; lokal klein beginnen, bei mehreren Tools oder Agenten verbindlich erweitern |
+| `AGENT SECURITY`, `TOOL PERMISSIONS` | erforderlich | erforderlich | erforderlich | `EINSATZBEREIT` und bei Schreib-, Netzwerk-, Code- oder Credentialwirkung verpflichtend |
+
+#### Modellrouting und Modellwechsel
+
+`AI GATEWAY` und `MODEL ROUTER` sind bereits heute einsetzbar. Ein Router kann
+vor einer Anfrage automatisch zwischen mehreren Modellen wählen; verfügbare
+Produkte unterstützen unter anderem promptabhängige Auswahl, Kosten- und
+Qualitätskriterien sowie Fallbacks.
+
+Das aktuell generierende LLM ersetzt jedoch nicht selbst seine Modellgewichte
+mitten in einer Antwort. Ein scheinbar selbstständiger Modellwechsel ist ein
+Harness- oder Orchestrator-Vorgang:
+
+1. Das LLM oder eine Routingkomponente erkennt einen anderen Bedarf.
+2. Der ORCHESTRATOR beendet oder unterbricht den aktuellen Arbeitsschritt.
+3. Er startet die nächste Anfrage oder einen spezialisierten Agenten mit dem
+   gewählten Modell.
+4. Zustand und Evidenz werden kontrolliert übergeben.
+
+Für den Architecture Hub gilt deshalb:
+
+- `MODEL ROUTER` erhält die Reifestufe `PILOT`, nicht `BEOBACHTEN`.
+- Eine einfache automatische Auswahl zwischen GPT, Claude und weiteren
+  Cloud-Modellen ist heute realistisch.
+- Eine hybride Route zwischen Cloud-Modellen und einem lokalen Qwen in HERMES
+  AGENTS ist technisch ebenfalls möglich, verlangt aber einen eigenen
+  Orchestrator, gemeinsame Verträge, Datenschutzregeln und vergleichende
+  Evals.
+- Kubernetes-, Flotten-, Regionen- und Hochverfügbarkeitsfunktionen sind
+  `SCALE-ONLY` und werden für ein lokales System nicht übernommen.
+- Modellrouting wird erst gebaut, wenn wiederholtes manuelles Umschalten,
+  Kosten, Datenschutz, Verfügbarkeit oder Qualitätsunterschiede einen
+  messbaren Nutzen ergeben.
+
+#### Beobachtungsliste
+
+- `WEBMCP`: `BEOBACHTEN`; aktueller Community-Entwurf, noch kein
+  W3C-Standard. Erst nach stabiler Hostunterstützung übernehmen.
+- `MCP APPS`, `AGENT UI`, `GENERATIVE UI`: `PILOT`; heute in einzelnen Hosts
+  nutzbar, aber noch nicht plattformübergreifend stabil.
+- `AGENT IDENTITY`, `AGENT AUTHORIZATION`: `BEOBACHTEN` als eigener
+  Interoperabilitätsstandard. Bestehende Authentisierung, OAuth,
+  Least-Privilege und Toolfreigaben sind dagegen schon heute Pflicht.
+- `LOCAL INFERENCE SERVER`: im lokalen System bereits durch `HERMES AGENTS`
+  abgedeckt. Keine zweite parallele Kategorie oder Plattform einführen.
+
+#### Lokale Auslagerungsregel für Skills
+
+Mehr als 300 Zeilen sind ein Prüftrigger, aber keine Definition eines Skills.
+Ein Skill wird früher extern gespeichert, wenn er wiederverwendet wird, eigene
+Scripts oder Referenzen besitzt, unabhängig versioniert werden muss oder von
+mehreren Agenten geladen werden soll. Kleine, nur für einen Agenten relevante
+Anweisungen dürfen im Vertrag `AGENT_<NAME>.md` integriert bleiben.
+
 ### 10. Retrieval Engineering
 
 Vor RAG wird geprüft:
@@ -322,11 +405,34 @@ Kosten und Fehlerflächen.
 - Logs und Traces nach Datenschutz und Aufbewahrung behandeln;
 - Security-Trigger aus Scale-Adaptive Planning anwenden.
 
+### 13. Artefakt- und Ausführungswahl
+
+Der DEVELOPER wählt Dateityp und Werkzeug nach Funktion, Empfänger und
+Prüfbarkeit. Er speichert nicht vorsorglich alles als PDF oder DOCX.
+
+- Markdown eignet sich für menschenlesbare Specs, Begründungen und
+  Arbeitsverträge.
+- JSON oder YAML eignet sich für maschinenlesbare Regeln, Zustände und
+  Schnittstellen.
+- PDF oder DOCX wird verwendet, wenn Layouttreue, formale Auslieferung oder
+  menschliche Weiterbearbeitung dies verlangt, nicht als voreingestellter
+  Architekturspeicher.
+- Ein Script übernimmt deterministische, wiederholbare und direkt prüfbare
+  Mechanik.
+- Ein AI-Pass übernimmt semantische, mehrdeutige oder generative Arbeit.
+- Ein Hybrid trennt beide Verantwortungen: Die KI beurteilt oder entwirft;
+  das Script strukturiert, wendet an oder validiert deterministisch.
+
+Der Plan hält die Wahl knapp fest. Existieren mehrere Darstellungen desselben
+Vertrags, müssen Authority und Ableitung eindeutig sein; parallele Wahrheiten
+sind nicht zulässig.
+
 ## Entwicklungsablauf
 
 ### 0. Klassifizieren
 
-Umfangstyp A1 bis A4 wählen, Trigger anwenden und nur die daraus nötige
+Umfangstyp A1 bis A4 wählen, Trigger anwenden, Dateityp und Ausführungsart
+`SCRIPT`, `AI_PASS` oder `HYBRID` begründen und nur die daraus nötige
 Grundausstattung laden.
 
 ### 1. Inspect
@@ -449,7 +555,7 @@ Der DEVELOPER meldet BEREIT, wenn:
 - ../ARCHITECTURE_HUB_LIBRARY/_STANDARDS/SCALE_ADAPTIVE_PLANNING.MD
 - ../ARCHITECTURE_HUB_DEVELOPMENT/AH_MISSION.MD
 
-### Aktuelle Primärquellen, geprüft am 29. September 2026
+### Aktuelle Primärquellen, geprüft am 30. September 2026
 
 - GitHub Spec Kit — Spec-Driven Development:
   https://github.github.com/spec-kit/
@@ -473,4 +579,39 @@ Der DEVELOPER meldet BEREIT, wenn:
   https://docs.langchain.com/oss/python/langgraph/persistence
 - Model Context Protocol — Architecture:
   https://modelcontextprotocol.io/specification/2025-06-18/architecture
-
+- OpenAI — Plugin architecture:
+  https://developers.openai.com/plugins/concepts/plugins
+- OpenAI — Sandboxed agents:
+  https://developers.openai.com/api/docs/guides/agents/sandboxes
+- OpenAI — Programmatic tool calling:
+  https://developers.openai.com/api/docs/guides/tools-programmatic-tool-calling
+- OpenAI — Tool search:
+  https://developers.openai.com/api/docs/guides/tools-tool-search
+- OpenAI — Models and providers:
+  https://developers.openai.com/api/docs/guides/agents/models
+- Anthropic — Tool use with Claude:
+  https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview
+- Anthropic — MCP connector:
+  https://platform.claude.com/docs/en/agents-and-tools/mcp-connector
+- Anthropic — Managed Agents configuration:
+  https://platform.claude.com/docs/en/managed-agents/agent-setup
+- QwenLM — Qwen-Agent:
+  https://github.com/QwenLM/Qwen-Agent
+- QwenLM — MCP in Qwen Code:
+  https://github.com/QwenLM/qwen-code/blob/main/docs/users/features/mcp.md
+- Agent2Agent Protocol — Specification:
+  https://github.com/a2aproject/A2A/blob/main/docs/specification.md
+- OpenTelemetry — Generative AI semantic conventions:
+  https://opentelemetry.io/docs/specs/semconv/registry/attributes/gen-ai/
+- OWASP — AI Agent Security Cheat Sheet:
+  https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html
+- OpenRouter — Auto Router:
+  https://openrouter.ai/docs/guides/routing/routers/auto-router
+- Amazon Bedrock — Intelligent prompt routing:
+  https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-routing.html
+- Microsoft Foundry — Model router:
+  https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/model-router
+- vLLM Production Stack — Intelligent Semantic Routing:
+  https://docs.vllm.ai/projects/production-stack/en/vllm-stack-0.1.10/use_cases/semantic-router-integration.html
+- WebMCP — Draft Community Group Report:
+  https://webmachinelearning.github.io/webmcp/

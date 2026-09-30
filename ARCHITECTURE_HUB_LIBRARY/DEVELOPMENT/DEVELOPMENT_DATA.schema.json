@@ -1,0 +1,266 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:architecture-hub:development:data:0.1.0",
+  "title": "DEVELOPMENT structured data support contract",
+  "description": "Provisorisches gemeinsames Begriffsskelett für DEVELOPMENT_LOG, Lernkandidaten und DISCOVERY_INVENTORY. Keine zusätzliche DEVELOPMENT-Dateifamilie und noch kein finaler projektspezifischer CONTRACT.",
+  "x-status": "DRAFT_SUPPORT_CONTRACT",
+  "x-authority": "HUMAN_CONFIRMED_STRUCTURE_SKELETON",
+  "$defs": {
+    "non_empty_string": {
+      "type": "string",
+      "minLength": 1
+    },
+    "reference_list": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/non_empty_string" },
+      "uniqueItems": true
+    },
+    "lesson_candidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidate_id",
+        "schema_version",
+        "source_project_id",
+        "source_artifact",
+        "source_event_id",
+        "content_hash",
+        "outcome",
+        "observation",
+        "evidence",
+        "lesson",
+        "applicability",
+        "recommended_change",
+        "target_library_items",
+        "learning_status",
+        "transfer_status"
+      ],
+      "properties": {
+        "candidate_id": { "$ref": "#/$defs/non_empty_string" },
+        "schema_version": { "const": "0.1.0" },
+        "source_project_id": { "$ref": "#/$defs/non_empty_string" },
+        "source_artifact": { "$ref": "#/$defs/non_empty_string" },
+        "source_event_id": { "$ref": "#/$defs/non_empty_string" },
+        "content_hash": { "$ref": "#/$defs/non_empty_string" },
+        "outcome": {
+          "enum": ["SUCCESS", "FAILURE", "SETBACK", "NEAR_MISS", "MIXED"]
+        },
+        "observation": { "$ref": "#/$defs/non_empty_string" },
+        "evidence": { "$ref": "#/$defs/reference_list" },
+        "lesson": { "$ref": "#/$defs/non_empty_string" },
+        "applicability": { "$ref": "#/$defs/non_empty_string" },
+        "recommended_change": { "$ref": "#/$defs/non_empty_string" },
+        "target_library_items": { "$ref": "#/$defs/reference_list" },
+        "learning_status": {
+          "enum": [
+            "CAPTURED",
+            "TRIAGED",
+            "VALIDATED",
+            "PROMOTED",
+            "PROJECT_ONLY",
+            "REJECTED",
+            "SUPERSEDED"
+          ]
+        },
+        "transfer_status": {
+          "enum": ["LOCAL", "QUEUED", "SENT", "ACKNOWLEDGED", "REJECTED"]
+        },
+        "hub_receipt_id": { "type": ["string", "null"] },
+        "duplicate_of": { "type": ["string", "null"] }
+      }
+    },
+    "development_event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "event_type",
+        "occurred_at",
+        "actor",
+        "summary",
+        "evidence",
+        "details"
+      ],
+      "properties": {
+        "event_id": { "$ref": "#/$defs/non_empty_string" },
+        "event_type": { "$ref": "#/$defs/non_empty_string" },
+        "occurred_at": { "$ref": "#/$defs/non_empty_string" },
+        "actor": { "$ref": "#/$defs/non_empty_string" },
+        "subject": { "type": "string" },
+        "summary": { "$ref": "#/$defs/non_empty_string" },
+        "evidence": { "$ref": "#/$defs/reference_list" },
+        "details": { "type": "object" }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "event_type": { "const": "LESSON_CANDIDATE" } },
+            "required": ["event_type"]
+          },
+          "then": {
+            "properties": {
+              "details": { "$ref": "#/$defs/lesson_candidate" }
+            }
+          }
+        }
+      ]
+    },
+    "development_log": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_version", "project_id", "log_id", "created_at", "events"],
+      "properties": {
+        "$schema": { "type": "string" },
+        "schema_version": { "const": "0.1.0" },
+        "project_id": { "$ref": "#/$defs/non_empty_string" },
+        "log_id": { "const": "DEVELOPMENT_LOG" },
+        "created_at": { "$ref": "#/$defs/non_empty_string" },
+        "events": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/development_event" }
+        }
+      }
+    },
+    "discovery_inventory": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "discovery_id",
+        "change_id",
+        "created_at",
+        "created_by",
+        "scope",
+        "search_strategy",
+        "items",
+        "evidence",
+        "findings",
+        "hypotheses",
+        "evidence_gaps"
+      ],
+      "properties": {
+        "$schema": { "type": "string" },
+        "schema_version": { "const": "0.1.0" },
+        "discovery_id": { "$ref": "#/$defs/non_empty_string" },
+        "change_id": { "$ref": "#/$defs/non_empty_string" },
+        "created_at": { "$ref": "#/$defs/non_empty_string" },
+        "created_by": { "$ref": "#/$defs/non_empty_string" },
+        "scope": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["included", "excluded", "limits"],
+          "properties": {
+            "included": { "$ref": "#/$defs/reference_list" },
+            "excluded": { "$ref": "#/$defs/reference_list" },
+            "limits": { "$ref": "#/$defs/reference_list" }
+          }
+        },
+        "search_strategy": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["search_id", "location", "method", "status"],
+            "properties": {
+              "search_id": { "$ref": "#/$defs/non_empty_string" },
+              "location": { "$ref": "#/$defs/non_empty_string" },
+              "method": { "$ref": "#/$defs/non_empty_string" },
+              "status": { "enum": ["DONE", "PARTIAL", "NOT_SEARCHED"] }
+            }
+          }
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "item_id",
+              "kind",
+              "location",
+              "role",
+              "state",
+              "content_hash",
+              "references_out",
+              "references_in",
+              "duplicate_of",
+              "evidence_ids"
+            ],
+            "properties": {
+              "item_id": { "$ref": "#/$defs/non_empty_string" },
+              "kind": { "$ref": "#/$defs/non_empty_string" },
+              "location": { "$ref": "#/$defs/non_empty_string" },
+              "role": { "$ref": "#/$defs/non_empty_string" },
+              "state": { "$ref": "#/$defs/non_empty_string" },
+              "content_hash": { "$ref": "#/$defs/non_empty_string" },
+              "references_out": { "$ref": "#/$defs/reference_list" },
+              "references_in": { "$ref": "#/$defs/reference_list" },
+              "duplicate_of": { "type": ["string", "null"] },
+              "evidence_ids": { "$ref": "#/$defs/reference_list" }
+            }
+          }
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["evidence_id", "source", "observation"],
+            "properties": {
+              "evidence_id": { "$ref": "#/$defs/non_empty_string" },
+              "source": { "$ref": "#/$defs/non_empty_string" },
+              "observation": { "$ref": "#/$defs/non_empty_string" }
+            }
+          }
+        },
+        "findings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "finding_id",
+              "category",
+              "epistemic_status",
+              "summary",
+              "item_ids",
+              "evidence_ids",
+              "confidence"
+            ],
+            "properties": {
+              "finding_id": { "$ref": "#/$defs/non_empty_string" },
+              "category": { "$ref": "#/$defs/non_empty_string" },
+              "epistemic_status": { "enum": ["FACT", "INFERENCE", "HYPOTHESIS", "UNKNOWN"] },
+              "summary": { "$ref": "#/$defs/non_empty_string" },
+              "item_ids": { "$ref": "#/$defs/reference_list" },
+              "evidence_ids": { "$ref": "#/$defs/reference_list" },
+              "confidence": { "enum": ["HIGH", "MEDIUM", "LOW"] }
+            }
+          }
+        },
+        "hypotheses": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "hypothesis_id",
+              "statement",
+              "supporting_evidence_ids",
+              "counter_evidence_ids",
+              "next_check"
+            ],
+            "properties": {
+              "hypothesis_id": { "$ref": "#/$defs/non_empty_string" },
+              "statement": { "$ref": "#/$defs/non_empty_string" },
+              "supporting_evidence_ids": { "$ref": "#/$defs/reference_list" },
+              "counter_evidence_ids": { "$ref": "#/$defs/reference_list" },
+              "next_check": { "$ref": "#/$defs/non_empty_string" }
+            }
+          }
+        },
+        "evidence_gaps": { "$ref": "#/$defs/reference_list" }
+      }
+    }
+  }
+}

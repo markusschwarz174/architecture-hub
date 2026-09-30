@@ -1,0 +1,47 @@
+{
+  "$schema": "./DEVELOPMENT_DATA.schema.json#/$defs/development_log",
+  "schema_version": "0.1.0",
+  "project_id": "[PROJECT]",
+  "log_id": "DEVELOPMENT_LOG",
+  "created_at": "[ISO-8601-TIMESTAMP]",
+  "events": [
+    {
+      "event_id": "DEV-0001",
+      "event_type": "[EVENT_TYPE]",
+      "occurred_at": "[ISO-8601-TIMESTAMP]",
+      "actor": "[HUMAN_OR_AGENT]",
+      "subject": "[SUBJECT]",
+      "summary": "[WHAT_HAPPENED_AND_WHY_IT_MATTERS]",
+      "evidence": ["[ARTIFACT_OR_RECORD_REF]"],
+      "details": {}
+    },
+    {
+      "event_id": "DEV-0002",
+      "event_type": "LESSON_CANDIDATE",
+      "occurred_at": "[ISO-8601-TIMESTAMP]",
+      "actor": "[HUMAN_OR_AGENT]",
+      "subject": "[SUBJECT]",
+      "summary": "[TRANSFERABLE_LESSON_IN_ONE_SENTENCE]",
+      "evidence": ["[ARTIFACT_OR_RECORD_REF]"],
+      "details": {
+        "candidate_id": "LC-[ID]",
+        "schema_version": "0.1.0",
+        "source_project_id": "[PROJECT]",
+        "source_artifact": "DEVELOPMENT_LOG.json",
+        "source_event_id": "DEV-0002",
+        "content_hash": "[CONTENT_HASH]",
+        "outcome": "MIXED",
+        "observation": "[WHAT_WAS_OBSERVED]",
+        "evidence": ["[EVIDENCE_REF]"],
+        "lesson": "[WHAT_SHOULD_BE_LEARNED]",
+        "applicability": "[WHEN_AND_WHERE_THIS_APPLIES]",
+        "recommended_change": "[CHANGE_OR_NO_CHANGE]",
+        "target_library_items": ["[TARGET_TEMPLATE_OR_TOOL]"],
+        "learning_status": "CAPTURED",
+        "transfer_status": "LOCAL",
+        "hub_receipt_id": null,
+        "duplicate_of": null
+      }
+    }
+  ]
+}

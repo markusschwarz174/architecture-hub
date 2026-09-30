@@ -44,6 +44,16 @@ Praxistest als Library-Standard freigeben.
   Skelett 1.0; der Library-Standard verweist darauf, statt die Matrix zu
   duplizieren.
 
+## Adressierte Funktionsübergaben — provisorisch
+
+- `DEVELOPMENT`: Wahl von Dateityp und Werkzeug sowie `SCRIPT`, `AI_PASS` oder
+  `HYBRID` ist im DEVELOPER-Vertrag angekommen.
+- `QUALITY`: Nachweise, `FILESYS`, Systemüberwachung und die präventive
+  INSPECTOR-Prüfung sind im Inspection-Konzept angekommen.
+- `CONTRACT`: Zentraler Paketvertrag und spezialisierte Rollen sind als
+  offene Übergabe vorgemerkt. Da noch kein CONTRACT-Funktionsbereich besteht,
+  wird dafür noch kein kanonisches Artefakt erfunden.
+
 ## Offene Fragen
 
 - Bestehen `GUARDRAILS.yaml`, `SECURITY.md`, `EVALS` und `HANDOFF.md` den

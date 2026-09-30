@@ -4,7 +4,7 @@ title: Architecture Hub Mission
 status: DRAFT
 version: 1.0.0-draft
 created_at: 2026-09-29T22:58:59+02:00
-updated_at: 2026-09-30T01:01:37+02:00
+updated_at: 2026-09-30T21:43:00+02:00
 authority: HUMAN_APPROVAL_REQUIRED
 architecture_skeleton: 1.0.0-draft
 ---
@@ -42,6 +42,22 @@ Entscheidungshilfen sind heute über Projekte, Dokumente, Chats und Workspaces
 verteilt. Der Hub macht diese Perlen auffindbar, vergleichbar, testbar und
 wiederverwendbar. Bewährte Erkenntnisse aus neuen Projekten fliessen
 kontrolliert zurück.
+
+## Die Library als kuratierte All-Star-Auswahl
+
+Die `ARCHITECTURE_HUB_LIBRARY` ist eine orchestrierte Best-of-Auswahl von
+Bausteinen, mit denen neue Systeme gebaut werden. Einige Bausteine sind
+universell einsetzbar, andere gelten nur für bestimmte Fachgebiete,
+Projektarten oder Architekturstufen. Die Auswahl soll HUMAN und KI dabei
+helfen, für eine Aufgabe den passenden Dateityp, das passende Werkzeug und
+die passende Ausführungsart zu wählen.
+
+Erkenntnisse aus Projekten werden nicht direkt in die Library geschrieben.
+Feedback von aussen gelangt zuerst in einen Entwicklungs-Briefkasten. Dort
+wird es mit Quelle und Kontext geprüft, mit dem Bestand verglichen und erst
+nach einem positiven Entscheid als Library-Kandidat weitergeführt.
+Bestehende Bausteine werden zudem regelmässig sowie durch konkrete Ereignisse
+ausgelöst überprüft, kuratiert, verbessert, abgelöst oder begründet belassen.
 
 ## CYCLE OF LIFE
 
@@ -183,13 +199,19 @@ Eine A2-Automation:
 - dokumentiert das Verhalten bei wiederholtem Start;
 - ist möglichst idempotent oder schützt vor unbeabsichtigter
   Doppelverarbeitung;
-- verwendet RECOVERY für bekannte Fehler, aber kein offenes Self-Healing.
+- verwendet begrenztes, zustandsbewusstes Self-Healing und RECOVERY innerhalb
+  des freigegebenen Ablaufs.
 
-RECOVERY darf begrenzte Wiederholungen, Wiederaufnahme an einem bekannten
-Kontrollpunkt, Quarantäne eines fehlerhaften Elements, Rückkehr in einen
-sicheren Zustand und Eskalation an den HUMAN umfassen. Die eigenständige
-Interpretation unbekannter Fehler und Veränderung des Lösungswegs gehört nicht
-zur A2-Grundausstattung.
+Jeder abgeschlossene Abschnitt endet mit einem bestätigten Output, der
+zugleich als Checkpoint oder Milestone dient; beide Begriffe werden hier
+synonym verwendet. Wird die Operation zwischen
+ENTRY und diesem Output unterbrochen, setzt sie beim letzten bestätigten
+Output fort, statt den gesamten Ablauf am Anfang neu zu starten. RECOVERY darf
+begrenzte Wiederholungen, Quarantäne eines fehlerhaften Elements, Rückkehr in
+einen sicheren Zustand und Eskalation an den HUMAN umfassen. Self-Healing
+erkennt bekannte Zustände, bewahrt gültiges Vorhandenes und ergänzt oder
+repariert nur innerhalb des definierten Vertrags. Unbekannte Fehler stoppen
+oder eskalieren; sie erlauben keine freie Veränderung des Lösungswegs.
 
 **Benötigt:**
 

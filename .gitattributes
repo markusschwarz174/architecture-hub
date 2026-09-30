@@ -1,0 +1,18 @@
+# Normalize text files for reliable cross-platform diffs.
+* text=auto
+
+*.md text eol=lf
+*.MD text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.json text eol=lf
+*.jsonl text eol=lf
+*.py text eol=lf
+*.html text eol=lf
+
+# Binary assets must never be modified by line-ending conversion.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary

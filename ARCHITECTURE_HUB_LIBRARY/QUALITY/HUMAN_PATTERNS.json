@@ -1,0 +1,6 @@
+{
+  "schema_version": "1.0.0",
+  "updated_at": "2026-09-30T21:46:26+02:00",
+  "activation_rule": "CONFIRMED_PATTERN_NEVER_OVERRIDES_CURRENT_HUMAN_INSTRUCTION_FACT_OR_SAFETY",
+  "patterns": []
+}

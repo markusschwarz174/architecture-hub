@@ -4,6 +4,7 @@ title: KURATOR des Architecture Hub
 status: DRAFT
 version: 0.1.0
 created_at: 2026-09-29T23:04:49+02:00
+updated_at: 2026-09-30T21:43:00+02:00
 authority: HUMAN_APPROVAL_REQUIRED
 role: KURATOR
 ---
@@ -26,6 +27,24 @@ Der KURATOR wird eingesetzt bei:
 - Status-, Index- oder Kategorienpflege;
 - Rückfluss aus realen Projekten;
 - Ablösung, Deprecation oder Archivierung eines Bausteins.
+
+## Feedback-Briefkasten und wiederkehrende Kuration
+
+Rückmeldungen von Projekten, HUMAN, Agents oder externen Quellen gelangen
+zuerst als unbestätigte Kandidaten in einen Entwicklungs-Briefkasten. Sie
+werden nicht direkt Teil der Library. Jeder Eingang bindet mindestens Quelle,
+Kontext, beobachteten Nutzen oder Fehler und den vorgeschlagenen
+Änderungsbedarf.
+
+Der KURATOR prüft diese Eingänge auf Dubletten, Übertragbarkeit, Evidenz und
+zuständigen Funktionsbereich. Nur ein positiv entschiedener und geprüfter
+Kandidat darf in die Library promoviert werden. Ablehnung, Zurückstellung oder
+Verbleib als projektspezifische Evidenz werden begründet festgehalten.
+
+Bestehende Library-Bausteine werden sowohl ereignisgetrieben als auch in
+festgelegten Abständen überprüft. Auslöser sind insbesondere reale
+Projekterfahrungen, wiederholte Fehler, widersprüchliche Varianten, veraltete
+Abhängigkeiten oder ein besser belegter Nachfolger.
 
 ## Pflichtinputs
 

@@ -1,0 +1,63 @@
+{
+  "$schema": "./DEVELOPMENT_DATA.schema.json#/$defs/discovery_inventory",
+  "schema_version": "0.1.0",
+  "discovery_id": "DISCOVERY-[ID]",
+  "change_id": "[CHANGE]",
+  "created_at": "[ISO-8601-TIMESTAMP]",
+  "created_by": "[EXPLORER_INSTANCE]",
+  "scope": {
+    "included": ["[PATH_OR_SYSTEM]"],
+    "excluded": ["[PATH_OR_SYSTEM]"],
+    "limits": ["[ACCESS_OR_TIME_LIMIT]"]
+  },
+  "search_strategy": [
+    {
+      "search_id": "S-001",
+      "location": "[PATH_OR_SYSTEM]",
+      "method": "[SEARCH_OR_INSPECTION_METHOD]",
+      "status": "DONE"
+    }
+  ],
+  "items": [
+    {
+      "item_id": "I-001",
+      "kind": "FILE",
+      "location": "[ABSOLUTE_OR_PROJECT_RELATIVE_PATH]",
+      "role": "[ROLE]",
+      "state": "ACTIVE",
+      "content_hash": "[HASH_OR_UNKNOWN]",
+      "references_out": [],
+      "references_in": [],
+      "duplicate_of": null,
+      "evidence_ids": ["E-001"]
+    }
+  ],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "source": "[PATH_OR_COMMAND_OR_ARTIFACT]",
+      "observation": "[DIRECT_OBSERVATION]"
+    }
+  ],
+  "findings": [
+    {
+      "finding_id": "F-001",
+      "category": "[DUPLICATE_ORPHAN_STALE_BROKEN_REF_CONFLICT_GAP_PATTERN_OTHER]",
+      "epistemic_status": "FACT",
+      "summary": "[FINDING]",
+      "item_ids": ["I-001"],
+      "evidence_ids": ["E-001"],
+      "confidence": "HIGH"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_id": "H-001",
+      "statement": "[HYPOTHESIS]",
+      "supporting_evidence_ids": ["E-001"],
+      "counter_evidence_ids": [],
+      "next_check": "[NEXT_CHECK]"
+    }
+  ],
+  "evidence_gaps": ["[EXPECTED_BUT_NOT_FOUND_OR_NOT_SEARCHED]"]
+}

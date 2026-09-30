@@ -5,6 +5,10 @@
 *.pem
 *.key
 
+# Local work sessions
+SESSIONS/
+README_DRAFT*.md
+
 # Runtime and dependency directories
 node_modules/
 .venv/
@@ -22,4 +26,3 @@ __pycache__/
 .DS_Store
 Thumbs.db
 desktop.ini
-

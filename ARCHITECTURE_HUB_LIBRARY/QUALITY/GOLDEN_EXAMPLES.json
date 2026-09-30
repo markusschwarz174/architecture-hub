@@ -1,0 +1,6 @@
+{
+  "schema_version": "1.0.0",
+  "updated_at": "2026-09-30T21:46:26+02:00",
+  "admission_rule": "HUMAN_VERDICT_WITH_CONTEXT_AND_PROVENANCE",
+  "examples": []
+}
