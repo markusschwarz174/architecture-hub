@@ -56,16 +56,19 @@ Unterscheide während der gesamten Arbeit strikt:
    zum Beispiel MISSION.md. Nicht jeder Begriff wird ein Dateityp.
 
 3. TAG
-   Ein Such- und Inhaltsbegriff. Ein TAG ist nicht automatisch ein Dateityp
-   und nicht automatisch eine Kapitelüberschrift.
+   Ein Such- und Zuordnungsbegriff. Ein TAG macht Themen und verwandte
+   Begriffe auffindbar. Er ist weder automatisch ein Dateityp noch automatisch
+   eine Kapitelüberschrift.
 
 4. HEADING
-   Ein TAG wird erst dann zur Kapitelüberschrift eines Dateityps, wenn HUMAN
-   dies für dessen Begriffsskelett bestätigt.
+   Eine strukturelle Überschrift innerhalb eines Dateityps. Sie kann einen
+   thematischen Begriff tragen oder generisch sein, zum Beispiel INPUT,
+   OUTPUT, STATUS oder REFERENCES. Eine HEADING muss nicht aus einem TAG
+   abgeleitet sein.
 
-Ein Beispiel darf nicht verallgemeinert werden: Bei MISSION sind die
-bestätigten TAGS zugleich Kapitelüberschriften. Daraus folgt keine globale
-Regel für andere Dateitypen.
+TAG und HEADING sind unabhängige Achsen. Derselbe Begriff kann nach
+HUMAN-Entscheid beides sein. Bei MISSION sind die bestätigten TAGS zugleich
+Kapitelüberschriften. Daraus folgt keine globale Regel für andere Dateitypen.
 
 VERBINDLICHE GRUNDLAGEN
 
@@ -199,7 +202,8 @@ ARBEITSREGELN
 
 - Funktion vor Begriff.
 - Dateityp und Inhalt niemals vermischen.
-- Ein TAG ist nur nach HUMAN-Entscheid eine HEADING.
+- TAG und HEADING nicht voneinander ableiten; Überschneidungen ausdrücklich
+  durch HUMAN entscheiden.
 - Keine neue Datei ohne eigenständige Funktion.
 - Keine parallelen Sources of Truth.
 - Keine stillen Umdeutungen bestehender Begriffe.
