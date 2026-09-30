@@ -65,12 +65,30 @@ dass sie den lokalen Architekturraum einfach und vollständig genug gliedert.
 
 ## 1. MISSION
 
-**Funktion:** Definiert Auftrag, Zweck, Ziel, Scope, Nicht-Ziele und
-Erfolgskriterien. Eine Mission sagt, weshalb etwas existiert und welches
-Ergebnis es verantwortet; sie beschreibt nicht den vollständigen Bauplan.
+**Funktion:** Definiert die stabile Ausrichtung eines Vorhabens: seine
+Ausgangslage, seinen Existenzgrund, seinen Zielzustand und den grundsätzlichen
+Abschluss der Mission. Sie beschreibt weder den detaillierten Bauweg noch den
+vollständigen Vertrag.
 
-- `ALIAS`: Auftrag, Zweck, Zielsetzung
-- `TAGS`: scope, non-goals, outcome, success-criteria, mission.md
+**Kanonischer Dateityp:** `MISSION.md`
+
+- `ALIAS`: Auftrag, Mission Statement
+- `TAGS`: AI_HUM_COWORK, CONTEXT, PURPOSE, GOAL, MISSION_COMPLETE
+
+Die `TAGS` sind für diesen Dateityp zugleich die vereinbarten
+Kapitelüberschriften:
+
+| Kapitel | Inhalt |
+|---|---|
+| `AI_HUM_COWORK` | Grundprinzip der Zusammenarbeit von HUMAN und AI; keine detaillierten Rollen-, Authority- oder Prozessregeln |
+| `CONTEXT` | Ausgangslage, Anlass und das zu lösende Grundproblem |
+| `PURPOSE` | Weshalb das Vorhaben existiert |
+| `GOAL` | Welcher grundsätzliche Zielzustand erreicht werden soll |
+| `MISSION_COMPLETE` | Grundsätzlicher Abschluss der Mission nach Durchlauf des Systems; keine mikrometergenaue Prüfspezifikation |
+
+**Abgrenzung:** `MILESTONES` gehören zu `WORKFLOW`. `SCOPE`, `OUT_OF_SCOPE`
+und `SUCCESS_CRITERIA` gehören zu `CONTRACT`. Die Mission darf darauf
+verweisen, dupliziert sie aber nicht.
 
 ## 2. DEVELOPMENT
 

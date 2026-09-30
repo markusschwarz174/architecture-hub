@@ -42,7 +42,7 @@ lesbar; sie sind Fremdabhängigkeiten und keine Architekturquellen.
 | Python, PowerShell, JavaScript, CMD, Module | `SCRIPT.*` / Source Code |
 | `ARCHITECTURE.md`, `PACKAGE.md`, `*_CONTROL.md`, `DIALOGFLOW.md` | `AUTOMATION.md`, `AGENT_SYSTEM.md` oder zusätzliche `SPECS` |
 | `SPEC_*.md`, `ROOM_*_SPEC.md`, `SPECS/` | zusätzliche `SPECS/*.md` |
-| `C_NAMING.md`, PDF-Naming und Pfadregeln | `NAMING.md` |
+| `C_NAMING.md`, PDF-Naming und Pfadregeln | `NAMING_LOCAL.md` |
 | `CONVENTION.md`, `CONSTITUTION.md`, Operations Matrix | `CONVENTIONS.md` |
 | `AGENTS.md`, `CLAUDE.md` | Werkzeug- und Providerinstruktionen |
 | `PLANNER.md`, `IMPLEMENTOR.md`, `VALIDATOR.md`, `REVIEWER.md`, `OBSERVER.md` | `AGENT_<NAME>.md` oder `ROLE_<NAME>.md` |

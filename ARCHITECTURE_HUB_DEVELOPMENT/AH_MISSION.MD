@@ -196,7 +196,7 @@ zur A2-Grundausstattung.
 - `MISSION.md`;
 - `AUTOMATION.md`;
 - ausführbares `SCRIPT.*`;
-- `NAMING.md`;
+- `NAMING_LOCAL.md`;
 - `VALIDATION.md`;
 - `CONVENTIONS.md`;
 - `PINWALL.md`.
@@ -282,7 +282,7 @@ der Grundausstattung und `[REPEAT]` Pflicht bei beabsichtigter Wiederverwendung.
 | `AGENT_SYSTEM.md` | — | — | ● | ● | Ziel, Agenten-/Rollenstruktur, Sessions und Loops |
 | `MULTI_PROVIDER.md` | — | — | — | ● | Providergrenzen und Übergaben |
 | `PINWALL.md` / funktionales `BOARD.md` | ○ | ● | ● | ● | aktueller Stand und Entwicklungssteuerung |
-| `NAMING.md` | ○ | ● | ● | ● | Namen, IDs und Pfadregeln |
+| `NAMING_LOCAL.md` | ○ | ● | ● | ● | lokale Namen, IDs und Pfadregeln |
 | `CONVENTIONS.md` / `CONVENTION.md` | ○ | ● | ● | ● | verbindliche Arbeits- und Authority-Regeln |
 | `VALIDATION.md` | — | ● | ● | ● | Prüfkriterien, Status und Endzustände |
 | `GUARDRAILS.yaml` | ○ | ○ | ● | ● | maschinenlesbare Grenzen |
@@ -360,7 +360,7 @@ in die Matrix aufgenommen, weil sie in einem alten Projekt vorhanden sind.
    Wahrheit geführt. Logs und Journale sind Verlauf, nicht zweite Pinwall.
 6. `AGENTS.md` und `CLAUDE.md` steuern Werkzeuge im Projekt. `AGENT_<NAME>.md`
    beschreibt einen Akteur; `ROLE_<NAME>.md` beschreibt eine Funktion.
-7. Zentral versionierte `NAMING.md` und `CONVENTIONS.md` werden verlinkt, wo
+7. Zentral versionierte `NAMING_LOCAL.md` und `CONVENTIONS.md` werden verlinkt, wo
    dies zuverlässig möglich ist. Lokale Dateien sind versionierte Snapshots,
    Ergänzungen oder bewusst dokumentierte Abweichungen.
 8. Echtdaten, Secrets und persönliche Inhalte werden nicht als
